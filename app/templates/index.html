@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="{{ url_for('static', filename='assets/vendor/nucleo/css/nucleo-icons.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link type="text/css" href="{{ url_for('static', filename='assets/css/blk-design-system.min.css') }}" rel="stylesheet">
+
+    <title>Name My Cat!</title>
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <br>
+        <br>
+        <h1 class="text-center mb-3">Name My Cat!</h1>
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='img/cat.png') }}" 
+                 alt="Cute cat" 
+                 class="img-fluid" 
+                 style="max-width: 200px;">
+        </div>
+        <p class="text-center mt-0">Suggest a name and/or vote in one for my cat. Names can only be suggested <b>once</b>.</p>
+
+        <!-- Flash messages for feedback -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message | safe }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Name Submission Form -->
+        <form method="POST" action="{{ url_for('index') }}" class="text-center">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.user_name.label(class="form-label") }}
+                {{ form.user_name(class="form-control") }}
+                {% if form.user_name.errors %}
+                    {% for error in form.user_name.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.cat_name.label(class="form-label") }}
+                {{ form.cat_name(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+        </form>
+
+        <!-- Display Suggested Names -->
+        <h2 class="mt-4 text-center">Suggested Names</h2>
+        <div class="row">
+            {% for name in cat_names %}
+                <div class="col-md-4">
+                    <div class="card mb-3" id="name-{{ name.id }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ name.name }}</h5>
+                            <p class="card-text">Suggested by: {{ name.user_name }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">Votes: {{ name.votes or 0 }}</small>
+                            </p>
+                            <form action="{{ url_for('vote', name_id=name.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-thumbs-up"></i> Vote
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                        <a class="page-link" 
+                           href="{{ url_for('index', page=pagination.prev_num, search=search) if pagination.has_prev else '#' }}">
+                            Previous
+                        </a>
+                    </li>
+                    {% for num in pagination.iter_pages() %}
+                        {% if num %}
+                            <li class="page-item {% if num == pagination.page %}active{% endif %}">
+                                <a class="page-link" href="{{ url_for('index', page=num, search=search) }}">
+                                    {{ num }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                        <a class="page-link" 
+                           href="{{ url_for('index', page=pagination.next_num, search=search) if pagination.has_next else '#' }}">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Core JS -->
+<script src="{{ url_for('static', filename='assets/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/popper/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/bootstrap.min.js') }}"></script>
+
+<!-- Theme JS -->
+<script src="{{ url_for('static', filename='assets/js/blk-design-system.min.js') }}"></script>
+
+</body>
+</html>

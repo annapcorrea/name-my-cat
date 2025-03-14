@@ -1,0 +1,14 @@
+<div class="card mb-4" id="name-{{ name.id }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ name.name }}</h5>
+        <p class="card-text">Suggested by: {{ name.user_name }}</p>
+        <p class="card-text">
+            <small class="text-muted">Votes: {{ name.votes }}</small>
+        </p>
+        <form action="{{ url_for('index', name_id=name.id) }}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fas fa-thumbs-up"></i> Vote
+            </button>
+        </form>
+    </div>
+</div>
