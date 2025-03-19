@@ -439,6 +439,7 @@ trio @ file:///Users/runner/miniforge3/conda-bld/trio_1696378344271/work
 trio-websocket @ file:///home/conda/feedstock_root/build_artifacts/trio-websocket_1695816857197/work/dist
 Twisted @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_3cf4rqmb9n/croot/twisted_1683796897214/work
 typing_extensions==4.12.2
+<<<<<<< HEAD
 uc-micro-py @ file:///Users/ec2-user/ci_py311/uc-micro-py_1678394873457/work
 ujson @ file:///Users/ec2-user/ci_py311/ujson_1678325349324/work
 Unidecode @ file:///tmp/build/80754af9/unidecode_1614712377438/work
@@ -474,3 +475,7 @@ zict @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_59sch
 zipp @ file:///Users/ec2-user/ci_py311/zipp_1678318061389/work
 zope.interface @ file:///Users/ec2-user/ci_py311/zope.interface_1678379536727/work
 zstandard @ file:///Users/ec2-user/ci_py311_2/zstandard_1679338593428/work
+=======
+Werkzeug==3.1.3
+WTForms==3.2.1
+>>>>>>> 3728794428a41a863c8d8ae2dd8fbeb549958b01
